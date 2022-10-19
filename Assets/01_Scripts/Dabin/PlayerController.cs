@@ -4,12 +4,10 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     public float jumpForce;
-
-    public int jumpsAmount;
-    int jumpsLeft;
-    public Transform GroundCheck;
     public LayerMask GroundLayer;
+    public Transform groundCheck;
 
+    private bool isGround;
     private float moveInput;
     private float scaleX;
     
@@ -26,9 +24,9 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (isGrounded() &&Input.GetKeyDown(KeyCode.Space))
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
-            rb2d.velocity = Vector2.up * jumpForce;
+            Jump();
         }
     }
 
@@ -43,6 +41,12 @@ public class PlayerController : MonoBehaviour
         rb2d.velocity = new Vector2(moveInput * moveSpeed, rb2d.velocity.y);
     }
 
+    public void Jump()
+    {
+        rb2d.velocity = Vector2.up * jumpForce;
+        IsGrounded();
+    }
+
     public void Flip()
     {
         if (moveInput > 0)
@@ -55,9 +59,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool isGrounded()
+    private bool IsGrounded()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.size, 0f, Vector2.down * 1f);
-        return hit.collider != null;
+        isGround = Physics2D.OverlapCapsule(groundCheck.position, new Vector2(1, 0.13f), CapsuleDirection2D.Horizontal, 0, GroundLayer);
+        return isGround;
     }
 }

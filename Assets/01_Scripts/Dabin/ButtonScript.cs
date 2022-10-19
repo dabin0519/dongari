@@ -19,18 +19,11 @@ public class ButtonScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             anim.SetBool("isButtonD", true);
-            doorOpen = true; // *수정사항 : 애니메이션 종료후 doorOpen = true 로 변경;
-        }
-
-        if (doorOpen)
-        {
-            ButtonDown();
-            doorOpen = false;
         }
     }
 
     public void ButtonDown()
     {
-        animD.SetBool("isButtonDown", true);
+        animD.SetBool("isDoorOpen", true);
     }
 }
