@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour
 {
-    private Animator animD; // door애니메이터
-    private Animator anim;  // button 애니메이터
-    private bool doorOpen;
+    public LayerMask PlayerLayer;
+    public Transform playerCheck;
+
+    private Animator animDoor; // door애니메이터
+    private Animator animButton;  // button 애니메이터
+    private bool buttonDown;
 
     private void Start()
     {
-        animD = GameObject.Find("Door").GetComponent<Animator>();
-        anim = GetComponent<Animator>();
+        animDoor = GameObject.Find("Door").GetComponent<Animator>();
+        animButton = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        buttonDown = Physics2D.OverlapCapsule(playerCheck.position, new Vector2(1, 0.13f), CapsuleDirection2D.Horizontal, 0, PlayerLayer);
+
+        if (buttonDown)
         {
-            anim.SetBool("isButtonD", true);
+            animButton.SetBool("isButtonD", true);
         }
     }
 
     public void ButtonDown()
     {
-        animD.SetBool("isDoorOpen", true);
+        animDoor.SetBool("isDoorOpen", true);
     }
 }
