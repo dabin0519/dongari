@@ -10,22 +10,26 @@ public class PlayerController : MonoBehaviour
     public Transform GroundCheck;
     public LayerMask GroundLayer;
 
-    bool isGrounded;
-
-    float moveInput;
-    Rigidbody2D rb2d;
-    float scaleX;
-
+    private float moveInput;
+    private float scaleX;
+    
+    private Rigidbody2D rb2d;
+    private BoxCollider2D boxCollider2D;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         scaleX = transform.localScale.x;
+        boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     void Update()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
-        Jump();
+
+        if (isGrounded() &&Input.GetKeyDown(KeyCode.Space))
+        {
+            rb2d.velocity = Vector2.up * jumpForce;
+        }
     }
 
     private void FixedUpdate()
@@ -51,33 +55,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Jump()
+    private bool isGrounded()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CheckIfGrounded();
-            if (jumpsLeft > 0)
-            {
-                Debug.Log("Jumpsleft는 0보다 크다");
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
-                jumpsLeft--;
-            }
-        }
-    }
-
-    public void CheckIfGrounded()
-    {
-        Debug.Log("checkifGrounded호출됨");
-        isGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheck.GetComponent<CircleCollider2D>().radius, GroundLayer);
-        ResetJumps();
-    }
-
-    public void ResetJumps()
-    {
-        if (isGrounded)
-        {
-            Debug.Log("RestJump호출됨");
-            jumpsLeft = jumpsAmount;// jumpsAmount =2;
-        }
+        RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.size, 0f, Vector2.down * 1f);
+        return hit.collider != null;
     }
 }
