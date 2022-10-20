@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour
 {
-    public LayerMask PlayerLayer;
+    [Tooltip("어느 플레이어와 상호작용 할 것 인지")]public LayerMask PlayerLayer;
     public Transform playerCheck;
 
     private Animator animDoor; // door애니메이터
