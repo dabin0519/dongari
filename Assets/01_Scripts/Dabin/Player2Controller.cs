@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player2Controller : MonoBehaviour
 {
     public float moveSpeed;
     public float jumpForce;
@@ -10,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private bool isGround;
     private float moveInput;
     private float scaleX;
-    
+
     private Rigidbody2D rb2d;
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -20,9 +23,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
+        moveInput = Input.GetAxisRaw("horizontal");
 
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.W))
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jump();
         }
@@ -53,7 +56,7 @@ public class PlayerController : MonoBehaviour
         }
         if (moveInput < 0)
         {
-            transform.localScale = new Vector3( scaleX, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
         }
     }
 
