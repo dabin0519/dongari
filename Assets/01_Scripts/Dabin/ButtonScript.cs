@@ -19,7 +19,7 @@ public class ButtonScript : MonoBehaviour
 
     private void Update()
     {
-        buttonDown = Physics2D.OverlapCapsule(playerCheck.position, new Vector2(1, 0.13f), CapsuleDirection2D.Horizontal, 0, PlayerLayer);
+        buttonDown = Physics2D.OverlapCapsule(playerCheck.position, new Vector2(0.3f, 0.16f), CapsuleDirection2D.Horizontal, 0, PlayerLayer);
 
         if (buttonDown)
         {
